@@ -10,14 +10,17 @@
       align-items: center;
       height: 100vh;
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     .container {
       background-color: rgb(255, 255, 255);
       border-radius: 10px;
-      box-shadow:10px #004949;
+      box-shadow: 0 0 10px #004949;
       padding: 20px;
-      width: 300px;
+      width: 90%; 
+      max-width: 350px;
     }
 
     .logo {
@@ -27,6 +30,7 @@
 
     .logo img {
       width: 200px;
+      max-width: 100%;
     }
 
     h2 {
@@ -48,12 +52,13 @@
       width: 100%;
       padding: 10px;
       border: 1px solid #004949;
-      border-radius: 0px;
-      margin: 0 auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
 
     .form-group button {
       width: 100%;
+      max-width: 100%;
       padding: 10px;
       background-color: #4CAF50;
       color: #fff;
@@ -64,7 +69,7 @@
 
     .form-group button:hover {
       background-color: #397bd1;
-      transition: 0.8s;
+      transition: background-color 0.3s ease;
     }
   </style>
 </head>
