@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <style>
+    body {
+      background-color: #004949;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      background-color: rgb(255, 255, 255);
+      border-radius: 10px;
+      box-shadow:10px #004949;
+      padding: 20px;
+      width: 300px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 200px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #004949;
+      border-radius: 0px;
+      margin: 0 auto;
+    }
+
+    .form-group button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #397bd1;
+      transition: 0.8s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="app-loader.gif" alt="Logo">
+    </div>
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+      </div>
+      <div class="form-group">
+        <button type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        // Simulate an asynchronous request to a server for authentication
+        setTimeout(function() {
+            authenticateUser(username, password);
+        }, 500); // Simulating a delay for demonstration purposes
+
+    });
+
+    function authenticateUser(username, password) {
+        // Replace this with a server-side authentication mechanism (e.g., AJAX request to a server)
+
+        // For demonstration purposes, checking against hardcoded values
+        if (username === 'medyacine' && password === '2005') {
+            alert('Login successful!');
+            window.location.href = 'Novel.html';
+
+     /*   } else if (username === 'fadili' && password === '2052005') {
+            alert('Login successful!');
+            window.location.href = '../az/Novel.html';
+     */
+        } else {
+            alert('Invalid username or password. Please try again.');
+        }
+    }
+</script>
+</body>
+</html>
