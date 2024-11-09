@@ -2,76 +2,7 @@
 <html>
 <head>
   <title>Login Page</title>
-  <style>
-    body {
-      background-color: #004949;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      background-color: rgb(255, 255, 255);
-      border-radius: 10px;
-      box-shadow: 0 0 10px #004949;
-      padding: 20px;
-      width: 90%; 
-      max-width: 350px;
-    }
-
-    .logo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .logo img {
-      width: 200px;
-      max-width: 100%;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #004949;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .form-group button {
-      width: 100%;
-      max-width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .form-group button:hover {
-      background-color: #397bd1;
-      transition: background-color 0.3s ease;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -81,49 +12,25 @@
     <h2>Login</h2>
     <form id="loginForm">
       <div class="form-group">
-        <label for="username">Username:(medyacine)</label>
-        <input type="text" id="username" required>
+        <label for="username">Username:</label>
+        <input type="text" id="username" required autocomplete="off" placeholder="Enter username" title="Your unique username">
+        <span id="usernameError" class="error-message"></span>
       </div>
       <div class="form-group">
-        <label for="password">Password:(2005)</label>
-        <input type="password" id="password" required>
+        <label for="password">Password:</label>
+        <div class="password-container">
+          <input type="password" id="password" required autocomplete="off" placeholder="Enter password" title="At least 8 characters">
+          <button type="button" id="togglePassword" class="toggle-password" style="width: 50px;">👁️</button>
+        </div>
+        <span id="passwordError" class="error-message"></span>
       </div>
       <div class="form-group">
-        <button type="submit">Login</button>
+        <button type="submit" id="loginButton">Login</button>
+        <span id="welcomeMessage" class="welcome-message"></span>
       </div>
     </form>
   </div>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
-
-        // Simulate an asynchronous request to a server for authentication
-        setTimeout(function() {
-            authenticateUser(username, password);
-        }, 500); // Simulating a delay for demonstration purposes
-
-    });
-
-    function authenticateUser(username, password) {
-        // Replace this with a server-side authentication mechanism (e.g., AJAX request to a server)
-
-        // For demonstration purposes, checking against hardcoded values
-        if (username === 'medyacine' && password === '2005') {
-            alert('Login successful!');
-            window.location.href = 'Novel.html';
-
-     /*   } else if (username === 'fadili' && password === '2052005') {
-            alert('Login successful!');
-            window.location.href = '../az/Novel.html';
-     */
-        } else {
-            alert('Invalid username or password. Please try again.');
-        }
-    }
-</script>
+  <script src="function.js"></script>
 </body>
 </html>
