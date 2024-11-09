@@ -1,0 +1,198 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Container */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2rem;
+  width: 320px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  animation: slideIn 1s ease-in-out;
+}
+
+/* Logo */
+.logo img {
+  width: 80px;
+  margin-bottom: 1rem;
+}
+
+/* Heading */
+h2 {
+  margin: 1rem 0;
+  font-size: 1.8rem;
+  color: #c1c1c1;
+  animation: fadeIn 1.5s;
+}
+
+/* Form Styling */
+.form-group {
+  margin: 1rem 0;
+  animation: fadeUp 0.8s;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #d1d1d1;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #2a5298;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #1e3c72;
+  outline: none;
+}
+
+.password-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 10px;
+  outline: none;
+  transition: color 0.3s ease;
+  border-radius: 50%;
+}
+
+.toggle-password:hover {
+  color: #c1c1c1;
+}
+
+.toggle-password:active {
+  color: #2a5298;
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.welcome-message {
+  margin-top: 15px;
+  color: #4caf50;
+  font-size: 1rem;
+  display: none;
+}
+
+/* Button Styling */
+button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #1e3c72;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2a5298;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button.loading {
+  cursor: wait;
+  background-color: #aaa;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 480px) {
+  body {
+    font-size: 30px; /* Increase font size for better readability */
+  }
+
+  .container {
+    width: 150%; /* Adjust width to fit the mobile screen */
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 2rem; /* Increase heading size */
+  }
+
+  .form-group input {
+    padding: 1rem; /* Increase padding for easier tapping */
+    font-size: 1.1rem; /* Make input text larger */
+  }
+
+  .toggle-password {
+    font-size: 1.5rem; /* Make the toggle button larger */
+  }
+
+  button {
+    padding: 1rem;
+    font-size: 1.2rem; /* Increase button font size */
+  }
+}
