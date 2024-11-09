@@ -1,349 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Volume List</title>
-  <style>
-    /* CSS styles for your website */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #067790;
-    }
-    
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    
-    main {
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .volume-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      justify-items: center;
-    }
-    
-    .volume {
-      width: 180px;
-      background-color: #2c2c2c;
-      border: 1px solid #00ffb7;
-      border-radius: 5px;
-      padding: 10px;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: box-shadow 0.3s ease;
-    }
-    
-    .volume:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    .volume-title {
-      font-weight: bold;
-      font-size: 18px;
-      margin: 0;
-      margin-bottom: 5px;
-    }
-    
-    .volume-description {
-      font-style: italic;
-      font-size: 14px;
-      margin: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume List</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        main {
+            width: 90%;
+            max-width: 1200px;
+            padding-top: 50px;
+        }
+        h1 {
+            position: fixed ;
+            text-align: center;
+            top: 50px;
+            left: 560px;
+            margin-bottom: 35px;
+            font-size: 2.5rem;
+            color: #00ffb7;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .volume-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+        .volume {
+            background: linear-gradient(135deg, #2c2c2c, #3d3d3d);
+            border: 1px solid #00ffb7;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .volume:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        }
+        .volume-title {
+            font-weight: bold;
+            font-size: 20px;
+            margin: 0;
+            margin-bottom: 5px;
+            color: #2e7bd3;
+        }
+        /* Pagination Buttons Style */
+        .pagination {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        #prevBtn,
+        #nextBtn {
+            padding: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background-color: transparent;
+            color: #00ffb7;
+            border: 2px solid #00ffb7;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        #prevBtn:hover,
+        #nextBtn:hover {
+            background-color: #00ffb7;
+            color: #121212;
+            transform: scale(1.1);
+        }
+        #prevBtn:disabled,
+        #nextBtn:disabled {
+            color: #555;
+            border-color: #555;
+            cursor: not-allowed;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Volume List</h1>
-  </header>
+    <main>
+        <h1>Volume List</h1>
+        <div class="volume-list" id="volumeList">
+            <!-- Chapters will be loaded here dynamically -->
+        </div>
+        <div class="pagination" id="pagination">
+            <button id="prevBtn">&lt;</button>
+            <span id="pageInfo"></span>
+            <button id="nextBtn">&gt;</button>
+        </div>
+    </main>
+    <script>
+        // Array of chapter data for dynamic generation
+        const chapters = [
+            { number: 442, title: "Chapter 442", file: "442.html" },
+            { number: 443, title: "Chapter 443", file: "443.html" },
+            { number: 444, title: "Chapter 444", file: "444.html" },
+            { number: 445, title: "Chapter 445", file: "445.html" },
+            { number: 446, title: "Chapter 446", file: "446.html" },
+            { number: 447, title: "Chapter 447", file: "447.html" },
+            { number: 448, title: "Chapter 448", file: "448.html" },
+            { number: 449, title: "Chapter 449", file: "449.html" },
+            { number: 450, title: "Chapter 450", file: "450.html" },
+            { number: 451, title: "Chapter 451", file: "451.html" },
+            { number: 452, title: "Chapter 452", file: "452.html" },
+            { number: 453, title: "Chapter 453", file: "453.html" },
+            { number: 454, title: "Chapter 454", file: "454.html" },
+            { number: 455, title: "Chapter 455", file: "455.html" },
+            { number: 456, title: "Chapter 456", file: "456.html" },
+            { number: 457, title: "Chapter 457", file: "457.html" },
+            { number: 458, title: "Chapter 458", file: "458.html" },
+            { number: 459, title: "Chapter 459", file: "459.html" },
+            { number: 460, title: "Chapter 460", file: "460.html" },
+            { number: 461, title: "Chapter 461", file: "461.html" },
+            { number: 462, title: "Chapter 462", file: "462.html" },
+            { number: 463, title: "Chapter 463", file: "463.html" },
+            { number: 464, title: "Chapter 464", file: "464.html" },
+            { number: 465, title: "Chapter 465", file: "465.html" },
+            { number: 466, title: "Chapter 466", file: "466.html" },
+            { number: 467, title: "Chapter 467", file: "467.html" },
+            { number: 468, title: "Chapter 468", file: "468.html" },
+            { number: 469, title: "Chapter 469", file: "469.html" },
+            { number: 470, title: "Chapter 470", file: "470.html" },
+            { number: 471, title: "Chapter 471", file: "471.html" },
+            { number: 472, title: "Chapter 472", file: "472.html" },
+            { number: 473, title: "Chapter 473", file: "473.html" },
+            { number: 474, title: "Chapter 474", file: "474.html" },
+            { number: 475, title: "Chapter 475", file: "475.html" },
+            { number: 476, title: "Chapter 476", file: "476.html" },
+            { number: 477, title: "Chapter 477", file: "477.html" },
+        ];
 
-  <main>
-    <div class="volume-list">
-      <!-- Volumes 399 to 434 -->
-             
-        
-       <div class="volume" onclick="window.location.href='399.html';">
-        <h2 class="volume-title">Chapter 399</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='410.html';">
-        <h2 class="volume-title">Chapter 410</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='411.html';">
-        <h2 class="volume-title">Chapter 411</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='412.html';">
-        <h2 class="volume-title">Chapter 412</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='413.html';">
-        <h2 class="volume-title">Chapter 413</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='414.html';">
-        <h2 class="volume-title">Chapter 414</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='415.html';">
-        <h2 class="volume-title">Chapter 415</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='416.html';">
-        <h2 class="volume-title">Chapter 416</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='417.html';">
-        <h2 class="volume-title">Chapter 417</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='418.html';">
-        <h2 class="volume-title">Chapter 418</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='419.html';">
-        <h2 class="volume-title">Chapter 419</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='420.html';">
-        <h2 class="volume-title">Chapter 420</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='429.html';">
-        <h2 class="volume-title">Chapter 429</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='430.html';">
-        <h2 class="volume-title">Chapter 430</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='431.html';">
-        <h2 class="volume-title">Chapter 431</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='432.html';">
-        <h2 class="volume-title">Chapter 432</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='433.html';">
-        <h2 class="volume-title">Chapter 433</h2>
-      </div>
-      
-      <div class="volume" onclick="window.location.href='434.html';">
-        <h2 class="volume-title">Chapter 434</h2>
-      </div> 
- 
-      <div class="volume" onclick="window.location.href='435.html';">
-        <h2 class="volume-title">Chapter 435</h2>
-      </div>
-  
-      <div class="volume" onclick="window.location.href='436.html';">
-        <h2 class="volume-title">Chapter 436</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='437.html';">
-        <h2 class="volume-title">Chapter 437</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='438.html';">
-        <h2 class="volume-title">Chapter 438</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='439.html';">
-        <h2 class="volume-title">Chapter 439</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='440.html';">
-        <h2 class="volume-title">Chapter 440</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='441.html';">
-        <h2 class="volume-title">Chapter 441</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='442.html';">
-        <h2 class="volume-title">Chapter 442</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='443.html';">
-        <h2 class="volume-title">Chapter 443</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='444.html';">
-        <h2 class="volume-title">Chapter 444</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='445.html';">
-        <h2 class="volume-title">Chapter 445</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='446.html';">
-        <h2 class="volume-title">Chapter 446</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='447.html';">
-        <h2 class="volume-title">Chapter 447</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='448.html';">
-        <h2 class="volume-title">Chapter 448</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='449.html';">
-        <h2 class="volume-title">Chapter 449</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='450.html';">
-        <h2 class="volume-title">Chapter 450</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='451.html';">
-        <h2 class="volume-title">Chapter 451</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='452.html';">
-        <h2 class="volume-title">Chapter 452</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='453.html';">
-        <h2 class="volume-title">Chapter 453</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='454.html';">
-        <h2 class="volume-title">Chapter 454</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='455.html';">
-        <h2 class="volume-title">Chapter 455</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='456.html';">
-        <h2 class="volume-title">Chapter 456</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='457.html';">
-        <h2 class="volume-title">Chapter 457</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='458.html';">
-        <h2 class="volume-title">Chapter 458</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='459.html';">
-        <h2 class="volume-title">Chapter 459</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='460.html';">
-        <h2 class="volume-title">Chapter 460</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='461.html';">
-        <h2 class="volume-title">Chapter 461</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='462.html';">
-        <h2 class="volume-title">Chapter 462</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='463.html';">
-        <h2 class="volume-title">Chapter 463</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='464.html';">
-        <h2 class="volume-title">Chapter 464</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='465.html';">
-        <h2 class="volume-title">Chapter 465</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='466.html';">
-        <h2 class="volume-title">Chapter 466</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='467.html';">
-        <h2 class="volume-title">Chapter 467</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='468.html';">
-        <h2 class="volume-title">Chapter 468</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='469.html';">
-        <h2 class="volume-title">Chapter 469</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='470.html';">
-        <h2 class="volume-title">Chapter 470</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='471.html';">
-        <h2 class="volume-title">Chapter 471</h2>
-      </div>
-        
-      <div class="volume" onclick="window.location.href='472.html';">
-        <h2 class="volume-title">Chapter 472</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='473.html';">
-        <h2 class="volume-title">Chapter 473</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='474.html';">
-        <h2 class="volume-title">Chapter 474</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='475.html';">
-        <h2 class="volume-title">Chapter 475</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='476.html';">
-        <h2 class="volume-title">Chapter 476</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='477.html';">
-        <h2 class="volume-title">Chapter 477</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='478.html';">
-        <h2 class="volume-title">Chapter 478</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='479.html';">
-        <h2 class="volume-title">Chapter 479</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='480.html';">
-        <h2 class="volume-title">Chapter 480</h2>
-      </div>
-      <div class="volume" onclick="window.location.href='481.html';">
-        <h2 class="volume-title">Chapter 481</h2>
-      </div>
-     <div class="volume" onclick="window.location.href='482.html';">
-        <h2 class="volume-title">Chapter 482</h2>
-      </div>
-     <div class="volume" onclick="window.location.href='483.html';">
-        <h2 class="volume-title">Chapter 483</h2>
-      </div>
-     <div class="volume" onclick="window.location.href='484.html';">
-        <h2 class="volume-title">Chapter 484</h2>
-      </div>
-     <div class="volume" onclick="window.location.href='485.html';">
-        <h2 class="volume-title">Chapter 485</h2>
-      </div>
-     
-        
-      
-      
-      
-      
-      
+        const itemsPerPage = 24;
+        let currentPage = 1;
 
-    </div>
-  </main>
+        function displayChapters(page) {
+            const volumeList = document.getElementById('volumeList');
+            volumeList.innerHTML = '';
 
-  <footer>
-    <p>&copy; 2023 Novel Bookshelf. All rights reserved.</p>
-  </footer>
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedChapters = chapters.slice(startIndex, endIndex);
+
+            paginatedChapters.forEach(chapter => {
+                const chapterDiv = document.createElement('div');
+                chapterDiv.className = 'volume';
+                chapterDiv.onclick = () => { window.location.href = chapter.file; };
+                chapterDiv.innerHTML = `<h2 class="volume-title">${chapter.title}</h2>`;
+                volumeList.appendChild(chapterDiv);
+            });
+
+            document.getElementById('pageInfo').innerText = `Page ${page} of ${Math.ceil(chapters.length / itemsPerPage)}`;
+            document.getElementById('prevBtn').disabled = page === 1;
+            document.getElementById('nextBtn').disabled = page === Math.ceil(chapters.length / itemsPerPage);
+        }
+
+        document.getElementById('prevBtn').onclick = () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayChapters(currentPage);
+            }
+        };
+
+        document.getElementById('nextBtn').onclick = () => {
+            if (currentPage < Math.ceil(chapters.length / itemsPerPage)) {
+                currentPage++;
+                displayChapters(currentPage);
+            }
+        };
+
+        displayChapters(currentPage);
+    </script>
 </body>
 </html>
