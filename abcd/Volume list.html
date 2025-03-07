@@ -126,96 +126,79 @@
         </div>
     </main>
     <script>
-        // Array of chapter data for dynamic generation
-        const chapters = [
-            { number: 442, title: "Chapter 442", file: "442.html" },
-            { number: 443, title: "Chapter 443", file: "443.html" },
-            { number: 444, title: "Chapter 444", file: "444.html" },
-            { number: 445, title: "Chapter 445", file: "445.html" },
-            { number: 446, title: "Chapter 446", file: "446.html" },
-            { number: 447, title: "Chapter 447", file: "447.html" },
-            { number: 448, title: "Chapter 448", file: "448.html" },
-            { number: 449, title: "Chapter 449", file: "449.html" },
-            { number: 450, title: "Chapter 450", file: "450.html" },
-            { number: 451, title: "Chapter 451", file: "451.html" },
-            { number: 452, title: "Chapter 452", file: "452.html" },
-            { number: 453, title: "Chapter 453", file: "453.html" },
-            { number: 454, title: "Chapter 454", file: "454.html" },
-            { number: 455, title: "Chapter 455", file: "455.html" },
-            { number: 456, title: "Chapter 456", file: "456.html" },
-            { number: 457, title: "Chapter 457", file: "457.html" },
-            { number: 458, title: "Chapter 458", file: "458.html" },
-            { number: 459, title: "Chapter 459", file: "459.html" },
-            { number: 460, title: "Chapter 460", file: "460.html" },
-            { number: 461, title: "Chapter 461", file: "461.html" },
-            { number: 462, title: "Chapter 462", file: "462.html" },
-            { number: 463, title: "Chapter 463", file: "463.html" },
-            { number: 464, title: "Chapter 464", file: "464.html" },
-            { number: 465, title: "Chapter 465", file: "465.html" },
-            { number: 466, title: "Chapter 466", file: "466.html" },
-            { number: 467, title: "Chapter 467", file: "467.html" },
-            { number: 468, title: "Chapter 468", file: "468.html" },
-            { number: 469, title: "Chapter 469", file: "469.html" },
-            { number: 470, title: "Chapter 470", file: "470.html" },
-            { number: 471, title: "Chapter 471", file: "471.html" },
-            { number: 472, title: "Chapter 472", file: "472.html" },
-            { number: 473, title: "Chapter 473", file: "473.html" },
-            { number: 474, title: "Chapter 474", file: "474.html" },
-            { number: 475, title: "Chapter 475", file: "475.html" },
-            { number: 476, title: "Chapter 476", file: "476.html" },
-            { number: 477, title: "Chapter 477", file: "477.html" },
-            { number: 478, title: "Chapter 475", file: "475.html" },
-            { number: 479, title: "Chapter 476", file: "476.html" },
-            { number: 480, title: "Chapter 477", file: "477.html" },
-            { number: 481, title: "Chapter 475", file: "475.html" },
-            { number: 482, title: "Chapter 476", file: "476.html" },
-            { number: 483, title: "Chapter 477", file: "477.html" },
-            { number: 484, title: "Chapter 475", file: "475.html" },
-            { number: 485, title: "Chapter 476", file: "476.html" },
-            { number: 486, title: "Chapter 477", file: "477.html" },
-            { number: 487, title: "Chapter 476", file: "476.html" },
-            { number: 488, title: "Chapter 477", file: "477.html" },
-        ];
+        // Dynamic chapter generation
+        const startChapter = 442;
+        const endChapter = 488;
+
+        const chapters = Array.from({length: endChapter - startChapter + 1}, (_, i) => ({
+            number: startChapter + i,
+            title: `Chapter ${startChapter + i}`,
+            file: `${startChapter + i}.html`
+        }));
+        
+       
 
         const itemsPerPage = 24;
         let currentPage = 1;
 
-        function displayChapters(page) {
-            const volumeList = document.getElementById('volumeList');
-            volumeList.innerHTML = '';
+        const chapterGrid = document.getElementById('chapterGrid');
 
-            const startIndex = (page - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedChapters = chapters.slice(startIndex, endIndex);
+        function renderChapters(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginated = chapters.slice(start, end);
 
-            paginatedChapters.forEach(chapter => {
-                const chapterDiv = document.createElement('div');
-                chapterDiv.className = 'volume';
-                chapterDiv.onclick = () => { window.location.href = chapter.file; };
-                chapterDiv.innerHTML = `<h2 class="volume-title">${chapter.title}</h2>`;
-                volumeList.appendChild(chapterDiv);
-            });
-
-            document.getElementById('pageInfo').innerText = `Page ${page} of ${Math.ceil(chapters.length / itemsPerPage)}`;
+            chapterGrid.innerHTML = paginated.map(chapter => `
+                <div class="chapter-card" onclick="window.location.href='${chapter.file}'">
+                    <div class="chapter-number">Chapter #${chapter.number}</div>
+                    <div class="chapter-title">${chapter.title}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            `).join('');
+            
             document.getElementById('prevBtn').disabled = page === 1;
-            document.getElementById('nextBtn').disabled = page === Math.ceil(chapters.length / itemsPerPage);
+            document.getElementById('nextBtn').disabled = end >= chapters.length;
         }
 
-        document.getElementById('prevBtn').onclick = () => {
+        // Pagination handlers
+        document.getElementById('prevBtn').addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
-                displayChapters(currentPage);
+                renderChapters(currentPage);
             }
-        };
+        });
 
-        document.getElementById('nextBtn').onclick = () => {
+        document.getElementById('nextBtn').addEventListener('click', () => {
             if (currentPage < Math.ceil(chapters.length / itemsPerPage)) {
                 currentPage++;
-                displayChapters(currentPage);
+                renderChapters(currentPage);
             }
-        };
+        });
 
-        displayChapters(currentPage);
+        // Initial render
+        renderChapters(currentPage);
+
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = chapters.filter(chapter => 
+                chapter.number.toString().includes(searchTerm) ||
+                chapter.title.toLowerCase().includes(searchTerm)
+            );
+            
+            chapterGrid.innerHTML = filtered.map(chapter => `
+                <div class="chapter-card" onclick="window.location.href='${chapter.file}'">
+                    <div class="chapter-number">Chapter #${chapter.number}</div>
+                    <div class="chapter-title">${chapter.title}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            `).join('');
+        });
+
     </script>
 </body>
 </html>
