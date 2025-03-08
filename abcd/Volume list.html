@@ -1,179 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volume List</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #121212;
-            color: #e0e0e0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        main {
-            width: 90%;
-            max-width: 1200px;
-            padding-top: 50px;
-        }
-        h1 {
-            position: fixed ;
-            text-align: center;
-            top: 50px;
-            left: 560px;
-            margin-bottom: 35px;
-            font-size: 2.5rem;
-            color: #00ffb7;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .volume-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            justify-items: center;
-        }
-        .volume {
-            background: linear-gradient(135deg, #2c2c2c, #3d3d3d);
-            border: 1px solid #00ffb7;
-            border-radius: 8px;
-            padding: 15px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .volume:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-        }
-        .volume-title {
-            font-weight: bold;
-            font-size: 20px;
-            margin: 0;
-            margin-bottom: 5px;
-            color: #2e7bd3;
-        }
-        /* Pagination Buttons Style */
-        .pagination {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        #prevBtn,
-        #nextBtn {
-            padding: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            background-color: transparent;
-            color: #00ffb7;
-            border: 2px solid #00ffb7;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-        }
-        #prevBtn:hover,
-        #nextBtn:hover {
-            background-color: #00ffb7;
-            color: #121212;
-            transform: scale(1.1);
-        }
-        #prevBtn:disabled,
-        #nextBtn:disabled {
-            color: #555;
-            border-color: #555;
-            cursor: not-allowed;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volume List</title>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #222;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      transition: color 0.3s;
+    }
+    
+    .volume-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    
+    .volume {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    }
+    
+    .volume:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .volume-title {
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 10px 0;
+      color: #444;
+      transition: color 0.3s;
+    }
+    
+    .pagination {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .pagination button {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    
+    .pagination button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .pagination button:hover:not(:disabled) {
+      background: linear-gradient(135deg, #5a7de0, #9670d5);
+      transform: scale(1.05);
+    }
+    
+    #pageInfo {
+      font-size: 1rem;
+      color: #555;
+    }
+    
+    /* Pagination Animation */
+    #pageInfo.animate {
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode h1 {
+      color: #fff;
+      text-shadow: none;
+    }
+    
+    body.dark-mode .volume {
+      background: #1e1e1e;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    }
+    
+    body.dark-mode .volume-title {
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .pagination button {
+      background: linear-gradient(135deg, #333, #555);
+    }
+    
+    body.dark-mode .pagination button:hover:not(:disabled) {
+      background: linear-gradient(135deg, #444, #666);
+    }
+    
+    body.dark-mode #pageInfo {
+      color: #bbb;
+    }
+    
+    /* Dark Mode Toggle Button */
+    .dark-mode-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #fff;
+      color: #333;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      z-index: 1000;
+    }
+    
+    .dark-mode-toggle:hover {
+      background: #e0e0e0;
+    }
+    
+    body.dark-mode .dark-mode-toggle {
+      background: #333;
+      color: #fff;
+    }
+    
+    body.dark-mode .dark-mode-toggle:hover {
+      background: #444;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .volume {
+        padding: 15px;
+      }
+      
+      .volume-title {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
-<body>
-    <main>
-        <h1>Volume List</h1>
-        <div class="volume-list" id="volumeList">
-            <!-- Chapters will be loaded here dynamically -->
-        </div>
-        <div class="pagination" id="pagination">
-            <button id="prevBtn">&lt;</button>
-            <span id="pageInfo"></span>
-            <button id="nextBtn">&gt;</button>
-        </div>
-    </main>
-    <script>
-        const startChapter = 442;
-        const endChapter = 484;
-        
-        const chapters = Array.from({length: endChapter - startChapter + 1}, (_, i) => ({
-            number: startChapter + i,
-            title: `Chapter ${startChapter + i}`,
-            file: `${startChapter + i}.html`
-        }));
-
-        const itemsPerPage = 24;
-        let currentPage = 1;
-
-        function displayChapters(page) {
-            const volumeList = document.getElementById('volumeList');
-            volumeList.innerHTML = '';
-
-            const startIndex = (page - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedChapters = chapters.slice(startIndex, endIndex);
-
-            paginatedChapters.forEach(chapter => {
-                const chapterDiv = document.createElement('div');
-                chapterDiv.className = 'volume';
-                chapterDiv.onclick = () => { window.location.href = chapter.file; };
-                chapterDiv.innerHTML = `<h2 class="volume-title">${chapter.title}</h2>`;
-                volumeList.appendChild(chapterDiv);
-            });
-
-            document.getElementById('pageInfo').innerText = `Page ${page} of ${Math.ceil(chapters.length / itemsPerPage)}`;
-            document.getElementById('prevBtn').disabled = page === 1;
-            document.getElementById('nextBtn').disabled = page === Math.ceil(chapters.length / itemsPerPage);
-        }
-
-        document.getElementById('prevBtn').onclick = () => {
-            if (currentPage > 1) {
-                currentPage--;
-                displayChapters(currentPage);
-            }
-        };
-
-        document.getElementById('nextBtn').onclick = () => {
-            if (currentPage < Math.ceil(chapters.length / itemsPerPage)) {
-                currentPage++;
-                displayChapters(currentPage);
-            }
-        };
-
-        displayChapters(currentPage);
-    </script>
+<body class="dark-mode">
+  <!-- Dark Mode Toggle Button -->
+  <button id="darkModeToggle" class="dark-mode-toggle">Light Mode</button>
+  
+  <main>
+    <h1>Volume List</h1>
+    <div class="volume-list" id="volumeList">
+      <!-- Chapters will be loaded here dynamically -->
+    </div>
+    <div class="pagination" id="pagination">
+      <button id="prevBtn">&lt;</button>
+      <span id="pageInfo"></span>
+      <button id="nextBtn">&gt;</button>
+    </div>
+  </main>
+  <script src="chapterCreation.js"></script>
 </body>
 </html>
