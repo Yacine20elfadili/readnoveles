@@ -4,6 +4,7 @@ let availableChapters = [];
 
 async function findLastChapter() {
   document.getElementById("spinner").style.display = "block";
+  document.getElementById("pagination").style.display = "none";
   for (let i = startChapter; i <= 99999; i++) {
     try {
       const response = await fetch(`${i}.html`);
@@ -27,6 +28,7 @@ async function findLastChapter() {
   }
   console.log(`Last available chapter is: ${endChapter}`);
   document.getElementById("spinner").style.display = "none";
+  document.getElementById("pagination").style.display = "flex";
   displayChapters(currentPage);
 }
 
