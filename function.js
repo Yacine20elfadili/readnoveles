@@ -55,7 +55,7 @@ document.getElementById('togglePassword').addEventListener('click', function () 
     welcomeMessage.style.display = 'block';
   
     setTimeout(() => {
-      window.location.href = 'Volume list.html'; // Redirect to next page
+      window.location.href = 'chapterList.html'; // Redirect to next page
     }, 1500);
   }
   
