@@ -1,4 +1,4 @@
-const startChapter = 442;
+const startChapter = 1;
 let endChapter;
 let availableChapters = [];
 const itemsPerPage = 15;
