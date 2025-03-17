@@ -41,11 +41,7 @@ async function findLastChapter() {
         console.log(`Last available chapter is: ${endChapter}`);
 
         for (let i = startChapter; i <= endChapter; i++) {
-            availableChapters.push({
-                number: i,
-                title: `Chapter ${i}`,
-                file: `${i}.html`,
-            });
+            availableChapters.push({ number: i , title: `Chapter ${i}`, file: `${i}.html`, });
         }
         if (availableChapters.length > itemsPerPage)  document.getElementById("pagination").style.display = "flex";
     } else {
@@ -53,13 +49,11 @@ async function findLastChapter() {
         volumeList.innerHTML = "<h1 style='color: red; text-align: center;'>There is no chapter available</h1>";
     }
     
-    
-
-    
-
     document.getElementById("spinner").style.display = "none";
-    displayChapters(1 , theFIRSTexists);
-    initCreateChapterButton(); // Initialize the create chapter button after chapters are loaded
+
+    // Check if a previous page was stored, otherwise default to 1.
+    currentPage = parseInt(localStorage.getItem("currentPage")) || 1;
+    displayChapters(currentPage, theFIRSTexists);
 }
 
 // Function to display chapters
@@ -77,31 +71,91 @@ function displayChapters(page , really) {
         const chapterDiv = document.createElement("div");
         chapterDiv.className = "volume";
         chapterDiv.onclick = () => {
-            window.location.href = chapter.file;
+          localStorage.setItem("currentPage", currentPage);
+          window.location.href = chapter.file;
         };
         chapterDiv.innerHTML = `<h2 class="volume-title">${chapter.title}</h2>`;
         volumeList.appendChild(chapterDiv);
     });
 
-    document.getElementById("pageInfo").innerText = `Page ${page} of ${Math.ceil(availableChapters.length / itemsPerPage)}`;
-    document.getElementById("prevBtn").disabled = page === 1;
-    document.getElementById("nextBtn").disabled = page === Math.ceil(availableChapters.length / itemsPerPage);
+    // Update the custom pagination control
+    renderPagination();
 }
 
-// Pagination controls
-document.getElementById("prevBtn").onclick = () => {
-    if (currentPage > 1) {
-        currentPage--;
-        displayChapters(currentPage , true);
-    }
+
+function renderPagination() {
+  const paginationContainer = document.getElementById("pagination");
+  paginationContainer.innerHTML = ""; // Clear any existing content
+  
+  const totalPages = Math.ceil(availableChapters.length / itemsPerPage);
+  const blockSize = 5;
+  const currentBlock = Math.floor((currentPage - 1) / blockSize);
+  const startPage = currentBlock * blockSize + 1;
+  let endPage = startPage + blockSize - 1;
+  if (endPage > totalPages) {
+       endPage = totalPages;
+  }
+
+  // Create container for numbered buttons
+  const numbersContainer = document.createElement("div");
+  numbersContainer.className = "pagination-numbers";
+  
+  // Create container for arrow buttons
+  const arrowsContainer = document.createElement("div");
+  arrowsContainer.className = "pagination-arrows";
+
+  // Create numbered page buttons for the current block
+  for (let i = startPage; i <= endPage; i++) {
+       const pageBtn = document.createElement("button");
+       pageBtn.innerText = i;
+       if (i === currentPage) {
+           pageBtn.classList.add("active-page");
+       }
+       pageBtn.onclick = () => {
+           currentPage = i;
+           displayChapters(currentPage, true);
+       };
+       numbersContainer.appendChild(pageBtn);
+  }
+  
+  // Create previous block arrow button if not on the first block
+  if (currentBlock > 0) {
+       const prevBlockBtn = document.createElement("button");
+       prevBlockBtn.innerText = "<";
+       prevBlockBtn.onclick = () => {
+            currentPage = (currentBlock - 1) * blockSize + 1;
+            displayChapters(currentPage, true);
+       };
+       arrowsContainer.appendChild(prevBlockBtn);
+  }
+  
+  // Create next block arrow button if there are more pages after the current block
+  if (endPage < totalPages) {
+       const nextBlockBtn = document.createElement("button");
+       nextBlockBtn.innerText = ">";
+       nextBlockBtn.onclick = () => {
+           currentPage = endPage + 1;
+           displayChapters(currentPage, true);
+       };
+       arrowsContainer.appendChild(nextBlockBtn);
+  }
+  
+  // Create jump to last page arrow button if not on the last page
+  if (currentPage !== totalPages) {
+       const lastPageBtn = document.createElement("button");
+       lastPageBtn.innerText = ">>";
+       lastPageBtn.onclick = () => {
+           currentPage = totalPages;
+           displayChapters(currentPage, true);
+       };
+       arrowsContainer.appendChild(lastPageBtn);
+  }
+  
+  // Append the numbered buttons container and then the arrow buttons container
+  paginationContainer.appendChild(numbersContainer);
+  paginationContainer.appendChild(arrowsContainer);
 };
 
-document.getElementById("nextBtn").onclick = () => {
-    if (currentPage < Math.ceil(availableChapters.length / itemsPerPage)) {
-        currentPage++;
-        displayChapters(currentPage , true);
-    }
-};
 
 // Dark Mode Toggle Functionality
 const darkModeToggle = document.getElementById("darkModeToggle");
@@ -115,5 +169,8 @@ darkModeToggle.addEventListener("click", () => {
     ? "Light Mode"
     : "Dark Mode";
 });
+
+
+
 
 findLastChapter(); // Start checking files
