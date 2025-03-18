@@ -6,7 +6,7 @@ let currentPage = 1;
 
 // Function to check if a chapter file exists
 async function checkChapter(chapter) {
-    let response = await fetch(`${chapter}.html`);
+    let response = await fetch('https://yacine20elfadili.github.io/files/readnovelesRepFiles/' + `${chapter}.html`);
     console.log(`Checking chapter ${chapter}: ${response.ok ? "Exists" : "Not Found!!!!!!!!!!!!!"}`);
     return response.ok;
 }
