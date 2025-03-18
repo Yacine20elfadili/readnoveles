@@ -41,7 +41,7 @@ async function findLastChapter() {
         console.log(`Last available chapter is: ${endChapter}`);
 
         for (let i = startChapter; i <= endChapter; i++) {
-            availableChapters.push({ number: i , title: `Chapter ${i}`, file: `${i}.html`, });
+            availableChapters.push({ number: i , title: `Chapter ${i}`, file: 'https://yacine20elfadili.github.io/files/readnovelesRepFiles/' +  `${i}.html`, });
         }
         if (availableChapters.length > itemsPerPage)  document.getElementById("pagination").style.display = "flex";
     } else {
